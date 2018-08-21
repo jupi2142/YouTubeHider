@@ -137,7 +137,7 @@ var callback = function(mutationsList) {
           return;
         }
       } catch (e) {
-        console.log('Exception: ', e, added_node);
+        // console.log('Exception: ', e, added_node);
       }
     }
   }
