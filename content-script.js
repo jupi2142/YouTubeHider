@@ -102,11 +102,7 @@ var remover = (function(keywords) {
   };
 })(keywords);
 
-
-var eat = function() {
-  // console.log('Wipe!')
-  var element_count = 0;
-  var tag_names = [
+var tag_names = [
     'ytd-compact-radio-renderer',
     'ytd-compact-video-renderer',
     'ytd-grid-video-renderer',
@@ -115,7 +111,12 @@ var eat = function() {
     'ytd-video-renderer',
     'ytd-radio-renderer',
     'ytd-channel-renderer',
-  ].map(function(tag_name) {
+]
+
+var eat = function() {
+  // console.log('Wipe!')
+  var element_count = 0;
+  tag_names.map(function(tag_name) {
     var elements = document.getElementsByTagName(tag_name);
     element_count += Array.prototype.filter.call(elements, remover).length;
     console.log('Elements eaten: ', element_count);
@@ -129,11 +130,16 @@ var config = {childList: true, subtree: true};
 // var config = { attributes: true, childList: true, subtree: true };
 
 var callback = function(mutationsList) {
-  // break if a ytd element has been added
   for (var mutation of mutationsList) {
-    if (mutation.addedNodes.length !== 0) {
-      eat()
-      break;
+    for (var added_node of mutation.addedNodes){
+        try {
+            if(tag_names.indexOf(added_node.tagName.toLowerCase()) != -1){
+              eat()
+              return
+            }
+        } catch (e) {
+            console.log('Exception: ', e, added_node)
+        }
     }
   }
 };
