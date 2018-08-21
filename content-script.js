@@ -86,7 +86,6 @@ var keywords = [
   'steven seagal',
 ].map(keyword => keyword.toLowerCase());
 
-
 var remover = (function(keywords) {
   return function(element) {
     var applicable_keywords = keywords.filter(
@@ -103,15 +102,15 @@ var remover = (function(keywords) {
 })(keywords);
 
 var tag_names = [
-    'ytd-compact-radio-renderer',
-    'ytd-compact-video-renderer',
-    'ytd-grid-video-renderer',
-    'ytd-notification-renderer',
-    'ytd-shelf-renderer',
-    'ytd-video-renderer',
-    'ytd-radio-renderer',
-    'ytd-channel-renderer',
-]
+  'ytd-compact-radio-renderer',
+  'ytd-compact-video-renderer',
+  'ytd-grid-video-renderer',
+  'ytd-notification-renderer',
+  'ytd-shelf-renderer',
+  'ytd-video-renderer',
+  'ytd-radio-renderer',
+  'ytd-channel-renderer',
+];
 
 var eat = function() {
   // console.log('Wipe!')
@@ -124,22 +123,22 @@ var eat = function() {
 };
 
 var targetNode = document.getElementsByTagName('body')[0];
-eat()
+eat();
 
 var config = {childList: true, subtree: true};
 // var config = { attributes: true, childList: true, subtree: true };
 
 var callback = function(mutationsList) {
   for (var mutation of mutationsList) {
-    for (var added_node of mutation.addedNodes){
-        try {
-            if(tag_names.indexOf(added_node.tagName.toLowerCase()) != -1){
-              eat()
-              return
-            }
-        } catch (e) {
-            console.log('Exception: ', e, added_node)
+    for (var added_node of mutation.addedNodes) {
+      try {
+        if (tag_names.indexOf(added_node.tagName.toLowerCase()) != -1) {
+          eat();
+          return;
         }
+      } catch (e) {
+        console.log('Exception: ', e, added_node);
+      }
     }
   }
 };
