@@ -84,16 +84,28 @@ var keywords = [
   'Kombat',
   'steven segal',
   'steven seagal',
+  'Shaolin',
+  'pewdiepie',
+  'silat',
+  'quinn',
+  'Tyson',
+  'Ferris',
 ].map(keyword => keyword.toLowerCase());
 
 var remover = (function(keywords) {
   return function(element) {
     var applicable_keywords = keywords.filter(
-      keyword => element.innerText.toLowerCase().indexOf(keyword) != -1,
+      keyword => element.innerText.toLowerCase().match(new RegExp('(^|\\s)'+keyword+'(\\s|$)', 'gi'))
     );
     if (applicable_keywords.length) {
-      // element.style.display = 'none';
       element.remove();
+      try {
+        console.log('Tag name: ', element.tagName);
+      } catch (e) {
+        console.log('Tag name: ', '#text');
+      }
+      console.log('Text: \n', Array.prototype.map.call(element.querySelectorAll('a[title]'), (a, index) => index+1 + '. ' + a.title).join('\n'));
+      console.log('Keywords: ', applicable_keywords.join(', '));
       return 1;
     } else {
       return 0;
@@ -106,10 +118,10 @@ var tag_names = [
   'ytd-compact-video-renderer',
   'ytd-grid-video-renderer',
   'ytd-notification-renderer',
-  'ytd-shelf-renderer',
   'ytd-video-renderer',
   'ytd-radio-renderer',
   'ytd-channel-renderer',
+  'ytd-shelf-renderer',
 ];
 
 var eat = function() {
@@ -118,7 +130,9 @@ var eat = function() {
   tag_names.map(function(tag_name) {
     var elements = document.getElementsByTagName(tag_name);
     element_count += Array.prototype.filter.call(elements, remover).length;
-    console.log('Elements eaten: ', element_count);
+    if (element_count !== 0) {
+        console.log('Elements eaten: ', element_count);
+    }
   });
 };
 
